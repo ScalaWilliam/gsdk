@@ -4,14 +4,18 @@ import org.graalvm.polyglot.proxy._
 
 object RunMe {
 
-  final case class Wah[T](x: T)
+  final case class Wah[T](v: T)
 
   def main(args: Array[String]): Unit = {
+    val context = Context.create()
+    val function3 = context.eval("js", "function(x) (x.copy([x, 1]))")
+    println(function3.execute(new Id("Test")))
+    println(function3.execute(Wah("Test")))
+
     println("Hello Java!")
     val item = new MySomething {
       override def data: Int = 15
     }
-    val context = Context.create()
     val function = context.eval("js", "function(x) ({result: x.data() + 1})")
     assert(function.canExecute)
     val x = function.execute(item)
