@@ -22,5 +22,9 @@ object RunMe {
     val f2 = context.eval("js", "function(x) (x.copy(2))")
     val r2 = f2.execute(Wah("Hey"))
     println(s"Result = ${r2}")
+
+    val f3 = context.eval(Source.newBuilder("js", getClass.getResource("/runner.js").toURI.toURL).build())
+    assert(f3.canExecute)
+    println(f3.execute(Wah("H")))
   }
 }
